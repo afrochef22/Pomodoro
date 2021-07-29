@@ -1,0 +1,161 @@
+<% 
+
+const workMin = 5;
+const shortBreakMin = 5;
+const longBreakMin = 15;
+let reps = 0;
+let endWork = 1;
+let totalMin = 30;
+let totalHours = 0;
+let totalHoursMin = 30;
+let timer = null;
+let isPaused = false;
+let totalTime = null;
+let startButton = document.querySelector(".startBtn");
+let pauseButton = document.querySelector(".pauseBtn");
+
+pauseButton.style.display = "none";
+
+
+// ---------------------------- TIMER MECHANISM -------------------------------
+
+function start(){
+    
+    
+    startButton.style.display = "none";
+    pauseButton.style.display = "inline-block";  
+
+    
+    if (isPaused === true){
+        isPaused = false
+    }
+    else{
+        reps ++;
+        endWork ++;
+        let workSec = workMin * 60;
+        let shortBreakSec = shortBreakMin * 60
+        let longBreakSec = longBreakMin * 60
+       
+
+        if ( reps % 8 === 0){
+            countDown(longBreakSec);
+            document.querySelector(".subTitle").innerText = "Long Break"
+        }
+        else if (reps % 2 === 0) {
+            countDown(shortBreakSec);
+            document.querySelector(".subTitle").innerText = "Break"
+        }
+        else {
+            countDown(workSec);
+            document.querySelector(".subTitle").innerText = "Work"
+            
+        };
+    }
+    
+};
+
+
+// ---------------------------- COUNTDOWN MECHANISM -----------------------------
+
+function countDown(count){
+   
+    
+    timer = setInterval(function(){
+       
+        if (!isPaused){
+            count -= 1;
+            let min = Math.floor(count / 60)
+            let sec = count % 60
+            if (sec < 10){
+                sec = "0" + sec
+            };
+            document.getElementById("timer").innerText = min + ":" + sec;
+            if (count === 0){
+                startButton.style.display = "inline-block";
+                pauseButton.style.display = "none";
+
+                if ( reps % 8 === 0){
+                    playSound('blue')
+                }
+                else if (reps % 2 === 0){
+                    playSound("green")
+                    
+                }
+                else {
+                    playSound("red")
+                    
+                    let workSession = Math.floor(endWork/2)
+                    let marks = ""
+                    
+                    for (let i = 0; i < workSession; i ++){
+                        marks += "🍅"
+                        totalMin = 30 * workSession
+                        totalHours = Math.floor(totalMin / 60)
+                        totalHoursMin = totalMin % 60
+                    }
+                    if (totalHoursMin === 0) {
+                        totalHoursMin = "00"
+                    }
+                    totalTime = totalHours + ":" + totalHoursMin
+                    document.querySelector(".reps").innerText = marks
+                    document.querySelector(".totalTime").innerText = "Total Time Working: " + totalTime 
+                    document.querySelector(".totalMin").innerText = "Total Minutes Working: " + totalMin
+                    document.querySelector(".timeInput").value = totalMin
+                    
+                    
+                };
+                
+            clearInterval(timer);
+          
+
+            console.log(reps) 
+            };  
+        }
+    }, 10);
+};
+
+// ---------------------------- PAUSE -----------------------------
+function pause (){
+    isPaused = true
+    startButton.style.display = "inline-block";
+    pauseButton.style.display = "none"; 
+};
+
+// ---------------------------- RESUME -----------------------------
+function resume (){
+    isPaused = false
+};
+
+
+
+// ---------------------------- RESET -----------------------------
+
+function reset(){
+    isPaused = false 
+    clearInterval(timer);
+    reps = 0
+    endWork = 1
+    marks = ""
+    totalMin = 30
+    totalHoursMin = 30
+
+    document.querySelector(".subTitle").innerText = "Timer";
+    document.getElementById("timer").innerText = "00:00";
+    startButton.style.display = "inline-block";
+    pauseButton.style.display = "none"; 
+
+    document.querySelector(".reps").innerText = ""
+    document.querySelector(".totalTime").innerText = "Total Time Working:"
+    document.querySelector(".totalMin").innerText = "Total Minutes Working:"
+
+};
+
+// ---------------------------- SOUND -----------------------------
+
+function playSound(sound){
+    var audio = new Audio("/sounds/" + sound + ".mp3");
+    audio.play();
+  };
+
+
+%> 
