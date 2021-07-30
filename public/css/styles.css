@@ -179,6 +179,9 @@ transform: scale(0.98);
     transform: scale(0.98);
 }
 
+
+
+
 .submitBtn {
     background: #564A4A;
     -webkit-border-radius: 8px;
@@ -194,7 +197,7 @@ transform: scale(0.98);
     display: inline-block;
     cursor: pointer;
     text-align: center;
-    width: 100px;
+    width: 150px;
     
  }
  
@@ -207,8 +210,8 @@ transform: scale(0.98);
     text-decoration: none;
  }
 
-.timeInput {
-  /* display: none; */
+.timeInput, .totalTime, .totalMin {
+  display: none;
 }
 
 .reps {
@@ -216,6 +219,36 @@ transform: scale(0.98);
   font-size: 24px;
 }
 
+/* ----Login page ----------------------------- */
+.form-container {
+  background-color: #9FE6A0;
+  height: 400px;
+  padding: 100px 0;
+}
+.form-group {
+  text-align: center;
+  padding: 10px;
+  font-size: 24px;
+}
+
+.form-group input {
+  height: 50px;
+  width: 500px;
+}
+
+.loginBtn-container {
+  text-align: center;
+  padding-top: 10px;
+}
+
+.loginBtn {
+  width: 510px;
+  height: 50px;
+  font-size: 2rem;
+  text-align: inherit;
+}
+
+/*  -----square graph------------------------- */
 :root {
     --square-size: 15px;
     --square-gap: 5px;

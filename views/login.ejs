@@ -1,16 +1,17 @@
 <%- include("header") -%>
 
 
-<form action="/login" method="POST">
+<form action="/login" method="POST" class="form-container">
+  <h1>Login</h1>
   <div class="form-group">
-    <label for="email" class="">Email</label>
-    <input type="text" name="username" class="">
+    <input type="text" name="username" placeholder="email" class="">
   </div>
   <div class="form-group">
-    <label for="password" class="">Password</label>
-    <input type="password" name="password" class="">
+    <input type="password" name="password" placeholder="password"  class="password-input">
+  </div >
+  <div class="loginBtn-container">
+    <button class="submitBtn loginBtn " type="submit" class="" >Login</button>
   </div>
-    <button type="submit" class="" >submit</button>
   </form>
 
   <%- include("footer") -%>

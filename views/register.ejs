@@ -1,16 +1,17 @@
 <%- include("header") -%>
 
 
-<form action="/register" method="POST">
+<form action="/register" method="POST" class="form-container">
+  <h1>Register</h1>
   <div class="form-group">
-    <label for="email">Email</label>
-    <input type="email" class="form-control" name="username">
+    <input type="email" class="form-control" name="username" placeholder="email">
   </div>
   <div class="form-group">
-    <label for="password">Password</label>
-    <input type="password" class="form-control" name="password">
+    <input type="password" class="form-control" name="password" placeholder="password">
   </div>
-  <button type="submit" class="btn">Register</button>
+  <div class="loginBtn-container">
+    <button class="submitBtn loginBtn " type="submit" class="" >Login</button>
+  </div>
 </form>
 
 <%- include("footer") -%>
