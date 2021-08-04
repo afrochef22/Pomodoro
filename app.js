@@ -37,6 +37,7 @@ mongoose.set("useCreateIndex", true);
 
 
 const pomodoroSchema = new mongoose.Schema({
+    username: String,
     email: String,
     password: String,
     session: [{
@@ -74,26 +75,30 @@ app.get("/", function(req, res){
     if (req.isAuthenticated()){
         let userLevel = [];
         let userDay = [];
-        let calenderDate = [1];
+        let userTime = []
         let userData = req.user.session;
         let beginningOfYearDate = new Date(new Date().getFullYear(), 0, 1);
+        let calenderDate = [beginningOfYearDate.toLocaleString().split(',')[0]];
         let fistDayOfYear = beginningOfYearDate.getDay()
         let endOfYearDate = new Date(new Date().getFullYear(), 11, 31);
-        console.log(endOfYearDate)
-        let num = 0
+        console.log(endOfYearDate.toISOString().split('T')[0])
+        
         userData.forEach(function(session){
             let userLevelItem = session.level
             let userDayItem = session.dayNumOfYear
+            let userTimeItem = session.timeTotal
             
             userLevel.push(userLevelItem)
             userDay.push(userDayItem)
+            userTime.push(userTimeItem)
             
             beginningOfYearDate.setDate(beginningOfYearDate.getDate()+1)
-            console.log(beginningOfYearDate.getDate())
-            calenderDate.push(beginningOfYearDate.getDate());
+
+            calenderDate.push(beginningOfYearDate.toLocaleString().split(',')[0]);
+            
             
         })
-        console.log(calenderDate)
+        
 
         res.render("index", {
             loggedIn: true, 
@@ -104,6 +109,7 @@ app.get("/", function(req, res){
             dayData: userDay,
             firstDay: fistDayOfYear,
             date: calenderDate,
+            time:userTime,
             
         })
     }
@@ -117,6 +123,7 @@ app.get("/", function(req, res){
             dayData: "",
             firstDay: false,
             date: "",
+            time:"",
             
         })
     }
@@ -203,7 +210,7 @@ app.post("/register", function(req, res){
                             for (let i = 0; i < 366; i++){
                                 if (i > 0) {
                                  
-                                foundUser.session.push({level: 0, dayNumOfYear: i})
+                                foundUser.session.push({level: 0, dayNumOfYear: i, timeTotal: 0})
                                
                                 foundUser.save(function(){})
                                 

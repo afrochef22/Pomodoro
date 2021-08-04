@@ -84,7 +84,7 @@
             <% for (var x = 0; x < 366; x++) { %>
             
               <% if (dayData[x] > 0) {%>  
-                <li value="<%= dayData[x] %>" data-level="<%= levelData[x] %>"><%=date[x]  %> </li>
+                <li data-toggle="tooltip" data-placement="bottom" data-animation="false" delay="0" title="<%= time[x]/60 + " hour/s\n" + date[x] %>" data-level="<%= levelData[x] %>"></li>
               <% } else { %>
           
             <li value="<%= i %>" data-level="0"></li>
@@ -271,16 +271,18 @@ function playSound(sound){
 
   // squares -----------------------------------------------------
 
-//   const squares = document.querySelector('.squares');
-//   for (var i = 1; i < 365; i++) {
-//   const level = Math.floor(Math.random() * 3);  
-//   squares.insertAdjacentHTML('beforeend', `<li data-level="${level}"></li>`);
-// }
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
 
    </script>
     <script src="header/footer.js"></script>
    <script src="timer.js" charset="utf-8"></script>
+   <script src="https://unpkg.com/@popperjs/core@2"></script>
    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 
    <%- include("footer") -%>
 </html>
+
+
+
