@@ -74,15 +74,26 @@ app.get("/", function(req, res){
     if (req.isAuthenticated()){
         let userLevel = [];
         let userDay = [];
+        let calenderDate = [1];
         let userData = req.user.session;
-        
+        let beginningOfYearDate = new Date(new Date().getFullYear(), 0, 1);
+        let fistDayOfYear = beginningOfYearDate.getDay()
+        let endOfYearDate = new Date(new Date().getFullYear(), 11, 31);
+        console.log(endOfYearDate)
+        let num = 0
         userData.forEach(function(session){
             let userLevelItem = session.level
             let userDayItem = session.dayNumOfYear
             
             userLevel.push(userLevelItem)
             userDay.push(userDayItem)
+            
+            beginningOfYearDate.setDate(beginningOfYearDate.getDate()+1)
+            console.log(beginningOfYearDate.getDate())
+            calenderDate.push(beginningOfYearDate.getDate());
+            
         })
+        console.log(calenderDate)
 
         res.render("index", {
             loggedIn: true, 
@@ -91,6 +102,8 @@ app.get("/", function(req, res){
             registerPage: false,
             levelData: userLevel,
             dayData: userDay,
+            firstDay: fistDayOfYear,
+            date: calenderDate,
             
         })
     }
@@ -102,6 +115,8 @@ app.get("/", function(req, res){
             registerPage: false,
             levelData: "",
             dayData: "",
+            firstDay: false,
+            date: "",
             
         })
     }
@@ -119,7 +134,9 @@ app.get("/login", function(req, res){
             loggedIn: true, 
             loginPage: true,
             registerPage: false,
-            indexPage: false
+            indexPage: false,
+            firstDay: false,
+            
         })
     }
     else {
@@ -127,7 +144,8 @@ app.get("/login", function(req, res){
             login: false, 
             loginPage: true,
             registerPage: false,
-            indexPage: false
+            indexPage: false,
+            firstDay: false,
         })
     }
 });
@@ -138,7 +156,8 @@ app.get("/register", function(req, res){
             loggedIn: true, 
             registerPage: true,
             loginPage: false,
-            indexPage: false
+            indexPage: false,
+            firstDay: false,
         })
     }
     else {
@@ -146,7 +165,8 @@ app.get("/register", function(req, res){
             login: false,  
             registerPage: true,
             loginPage: false,
-            indexPage: false
+            indexPage: false,
+            firstDay: false,
         })
     }
 });
@@ -212,6 +232,7 @@ app.post("/", function(req, res){
 
     let day = Math.floor(diff / oneDay);
     console.log(time)
+
   
    if (req.isAuthenticated()) {
     //    finds the user that is currently logged in

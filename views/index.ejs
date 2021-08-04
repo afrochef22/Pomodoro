@@ -75,15 +75,19 @@
         <li>Sat</li>
       </ul>
       <ol class="squares">
-        <% for (var i = 0; i < 364; i++) { %>
-          <% let x = 1%>
-          <% x = x+ 1 %> 
+        <% for (var i = 0; i < firstDay; i++) { %>
+          <% if (firstDay > i) { %>
+             <li value="" data-level=""></li>
+            <% } %> 
+            <% } %>
+
+            <% for (var x = 0; x < 366; x++) { %>
+            
+              <% if (dayData[x] > 0) {%>  
+                <li value="<%= dayData[x] %>" data-level="<%= levelData[x] %>"><%=date[x]  %> </li>
+              <% } else { %>
           
-          <% if (dayData[i] > 0) {%>  
-            <li value="<%= dayData[i] %>" data-level="<%= levelData[i] %>"><%= dayData[i] %></li>
-          <% } else { %>
-          
-            <li value="<%= i %> " data-level="0"><%= i %></li>
+            <li value="<%= i %>" data-level="0"></li>
             <% } %> 
           
             <% } %>
