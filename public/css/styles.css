@@ -57,6 +57,14 @@ a.active-link {
   background-color: #fcefdc;
 }
 
+.username {
+  float: right;
+  display: block;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
 .container {
   background-color: #9FE6A0;
   text-align: center;

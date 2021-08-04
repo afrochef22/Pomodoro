@@ -32,6 +32,8 @@
         
           <% if (loggedIn) { %>
             <li class="nav-links"><a href="/logout">Logout</a></li>
+            <li class="username"><%= "Welcome " + user %> </li>
+
             <% } else {%> 
             <li class="nav-links"><a href="/login">Login</a></li>
             <li class="nav-links"><a href="/register">Register</a></li>

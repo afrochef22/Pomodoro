@@ -38,7 +38,6 @@ mongoose.set("useCreateIndex", true);
 
 const pomodoroSchema = new mongoose.Schema({
     username: String,
-    email: String,
     password: String,
     session: [{
         date: String,
@@ -80,8 +79,8 @@ app.get("/", function(req, res){
         let beginningOfYearDate = new Date(new Date().getFullYear(), 0, 1);
         let calenderDate = [beginningOfYearDate.toLocaleString().split(',')[0]];
         let fistDayOfYear = beginningOfYearDate.getDay()
-        let endOfYearDate = new Date(new Date().getFullYear(), 11, 31);
-        console.log(endOfYearDate.toISOString().split('T')[0])
+        
+        console.log()
         
         userData.forEach(function(session){
             let userLevelItem = session.level
@@ -101,6 +100,7 @@ app.get("/", function(req, res){
         
 
         res.render("index", {
+            user: req.user.username,
             loggedIn: true, 
             indexPage: true,
             loginPage: false,
