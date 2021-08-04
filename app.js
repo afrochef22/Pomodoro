@@ -41,6 +41,7 @@ const pomodoroSchema = new mongoose.Schema({
     password: String,
     session: [{
         date: String,
+        dayNumOfYear: Number,
         timeTotal: Number,
         level: Number
     }]
@@ -71,11 +72,26 @@ passport.deserializeUser(function(id, done) {
 
 app.get("/", function(req, res){
     if (req.isAuthenticated()){
+        let userLevel = [];
+        let userDay = [];
+        let userData = req.user.session;
+        
+        userData.forEach(function(session){
+            let userLevelItem = session.level
+            let userDayItem = session.dayNumOfYear
+            
+            userLevel.push(userLevelItem)
+            userDay.push(userDayItem)
+        })
+
         res.render("index", {
             loggedIn: true, 
             indexPage: true,
             loginPage: false,
-            registerPage: false
+            registerPage: false,
+            levelData: userLevel,
+            dayData: userDay,
+            
         })
     }
     else {
@@ -83,7 +99,10 @@ app.get("/", function(req, res){
             loggedIn: false, 
             indexPage: true,
             loginPage: false,
-            registerPage: false
+            registerPage: false,
+            levelData: "",
+            dayData: "",
+            
         })
     }
     
@@ -137,12 +156,42 @@ app.get("/register", function(req, res){
 
 
 app.post("/register", function(req, res){
+    let now = new Date()
+    let level = 0
+    let date = (now.getMonth() + 1) +"-" + now.getDate() + "-" + now.getFullYear()
+    // this gets the current number of the day out of 365 days
+    let start = new Date(now.getFullYear(), 0, 0);
+    let diff = now - start + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
+    var oneDay = 1000 * 60 * 60 * 24;
+    let day = Math.floor(diff / oneDay);
+    
     Pomodoro.register({username:req.body.username}, req.body.password, function(err, user){
         if (err) {
             console.log(err)
         }
         else {
+            console.log("New user created")
             passport.authenticate("local")(req, res, function(){
+                Pomodoro.findById(req.user._id, function(err, foundUser){
+                    if (err){
+                        consoloe.log(err)
+                    }
+                    else{
+                        let lastElementPosition = foundUser.session.length - 1;
+                        
+                        if (foundUser.session.length === 0){
+                            for (let i = 0; i < 366; i++){
+                                if (i > 0) {
+                                 
+                                foundUser.session.push({level: 0, dayNumOfYear: i})
+                               
+                                foundUser.save(function(){})
+                                
+                                }
+                            }
+                        }
+                    }
+                });
                 res.redirect("/")
             })
         }
@@ -151,10 +200,18 @@ app.post("/register", function(req, res){
 })
 
 app.post("/", function(req, res){
+   
    let time = req.body.time
-   let date = new Date()
-   let level = 0
-   date = (date.getMonth() + 1) +"-" + date.getDate() + "-" + date.getFullYear()
+   let now = new Date()
+    let level = 0
+    let date = (now.getMonth() + 1) +"-" + now.getDate() + "-" + now.getFullYear()
+    // this gets the current number of the day out of 365 days
+    let start = new Date(now.getFullYear(), 0, 0);
+    let diff = now - start + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
+    var oneDay = 1000 * 60 * 60 * 24;
+
+    let day = Math.floor(diff / oneDay);
+    console.log(time)
   
    if (req.isAuthenticated()) {
     //    finds the user that is currently logged in
@@ -163,14 +220,17 @@ app.post("/", function(req, res){
             consoloe.log(err)
         }
         else {
-            console.log(foundUser)
-        // if this is the users first time loging a session it creates it
+       
+            // records the first submit of the day
             if (foundUser){
                 
-                let lastElementPosition = foundUser.session.length - 1;
-                let targetSession = foundUser.session[lastElementPosition]
-                
-                if (foundUser.session.length === 0){
+                let elementPosition = day - 1
+                let targetSession = foundUser.session[elementPosition]
+                 console.log(targetSession.date)
+
+                if (targetSession.date === undefined){
+                    console.log("new")
+
                     switch(true){
                         case time === 0:
                             level = 0;
@@ -190,17 +250,30 @@ app.post("/", function(req, res){
                             level = 5;
                             break;
                     }
-                    let newSession = {date: date, timeTotal: time, level: level};
-                    console.log("new session: " + date, time, level)
-                    foundUser.session.push(newSession)
-                    
-                    foundUser.save(function(){
-                        res.redirect("/")
-                    })
-                }
+                    let newSession = {date: date, dayNumOfYear: day, timeTotal: time, level: level};
 
-                // if user has already logged a session for the day this will update it if the logged another one
-                else if (targetSession.date === date ){
+                    Pomodoro.findOneAndUpdate(
+                        {_id: foundUser._id, "session._id": targetSession._id}, 
+                        {"$set": {
+                            "session.$.date": date,
+                            "session.$.dayNumOfYear": day,
+                            "session.$.timeTotal": time,
+                            "session.$.level": level,
+                        }}, function(err, results){
+                            if (err){
+                                console.log(err)
+                            }
+                            else {
+                                
+                                res.redirect("/")
+                                
+                            };
+                        });
+                    
+                }
+                // updates the the current days record
+                else {
+                    console.log("update")
                     newTime = targetSession.timeTotal + parseInt(time);
 
                     switch(true){
@@ -222,39 +295,33 @@ app.post("/", function(req, res){
                             level = 5;
                             break;
                     }
-                    updatedSession = {date: date, timeTotal: newTime, level: level}
-                    console.log("updated session: " + date, time, level)
+                    let updatedSession = {date: date, dayNumOfYear: day, timeTotal: newTime, level: level}
+                    
                     Pomodoro.findOneAndUpdate(
-                        {_id: foundUser._id}, {$pull: {session: {_id: targetSession._id}}}, function(err, results){
+                        {_id: foundUser._id, "session._id": targetSession._id}, 
+                        {"$set": {
+                            "session.$.date": date,
+                            "session.$.dayNumOfYear": day,
+                            "session.$.timeTotal": newTime,
+                            "session.$.level": level,
+                        }}, function(err, results){
                             if (err){
                                 console.log(err)
                             }
                             else {
-                                foundUser.session.push(updatedSession)
-                                foundUser.save(function(){
-                                    res.redirect("/")
-                                }) 
+                                console.log("updated")
+                                res.redirect("/") 
                                 
                             }
                         })
-                    
+                   
                 }
-                // if this is the users first time logging a session for the day it adds it to the list
-                else {
-                    let newSession = {date: date, timeTotal: time};
-                    foundUser.session.push(newSession)
-                    foundUser.save(function(){
-                        res.redirect("/")
-                    }) 
-                }
-                
+   
             }
         }
     })
    }
-   else {
-       res.redirect("/")
-   }
+  
   
 
 });

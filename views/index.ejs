@@ -74,12 +74,25 @@
         <li>Fri</li>
         <li>Sat</li>
       </ul>
-      <ul class="squares">
-        <!-- added via javascript -->
-      </ul>
+      <ol class="squares">
+        <% for (var i = 0; i < 364; i++) { %>
+          <% let x = 1%>
+          <% x = x+ 1 %> 
+          
+          <% if (dayData[i] > 0) {%>  
+            <li value="<%= dayData[i] %>" data-level="<%= levelData[i] %>"><%= dayData[i] %></li>
+          <% } else { %>
+          
+            <li value="<%= i %> " data-level="0"><%= i %></li>
+            <% } %> 
+          
+            <% } %>
+        </ol>
     </div>
   </div>
   </div>
+
+  
 
 
 
