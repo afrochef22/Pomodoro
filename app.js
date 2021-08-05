@@ -9,7 +9,7 @@ const passportLocalMongoose = require("passport-local-mongoose");
 const facbookStrategy = require("passport-facebook").Strategy;
 const googleStrategy = require("passport-google-oauth20").Strategy;
 const findOrCreate = require("mongoose-findorcreate");
-
+const { body, validationResult } = require('express-validator');
 
 
 const app = express();
@@ -183,6 +183,10 @@ app.get("/register", function(req, res){
 
 
 app.post("/register", function(req, res){
+    if (req.body){
+        
+        res.redirect("login")
+    }
     let now = new Date()
     let level = 0
     let date = (now.getMonth() + 1) +"-" + now.getDate() + "-" + now.getFullYear()
@@ -191,6 +195,8 @@ app.post("/register", function(req, res){
     let diff = now - start + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
     var oneDay = 1000 * 60 * 60 * 24;
     let day = Math.floor(diff / oneDay);
+
+    
     
     Pomodoro.register({username:req.body.username}, req.body.password, function(err, user){
         if (err) {
@@ -223,7 +229,7 @@ app.post("/register", function(req, res){
             })
         }
     });
-
+   
 })
 
 app.post("/", function(req, res){
