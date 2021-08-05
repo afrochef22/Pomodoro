@@ -32,7 +32,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-mongoose.connect("mongodb://localhost:27017/pomoUserDB", {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false})
+mongoose.connect("mongodb+srv://admin-ashanti:*CgUcK!L._xQ6w7M4BeT-3n*@cluster0.s42fm.mongodb.net/pomodoroDB", {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false})
 mongoose.set("useCreateIndex", true);
 
 
@@ -394,5 +394,5 @@ if (port == null || port == ""){
 }
 
 app.listen(port, function(){
-    console.log("Server is running on port 3000")
+    console.log("Server has started succsessfully")
 })
