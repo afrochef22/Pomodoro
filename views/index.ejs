@@ -33,7 +33,7 @@
                <% } %> 
            </form>
 
-           <div>
+           <div class="reps-cont">
              <p class="reps"></p>
          </div>
            
@@ -51,6 +51,7 @@
       
     
     <div class="graph">
+      <p>2021</p>
       <ul class="months">
         <li>Jan</li>
         <li>Feb</li>
@@ -74,7 +75,7 @@
         <li>Fri</li>
         <li>Sat</li>
       </ul>
-      <ol class="squares">
+      <ol class="squares" style="padding-left: 0px;" >
         <% for (var i = 0; i < firstDay; i++) { %>
           <% if (firstDay > i) { %>
              <li value="" data-level=""></li>

@@ -67,14 +67,18 @@ a.active-link {
 
 .container {
   background-color: #9FE6A0;
-  text-align: center;
+  
   padding: 10% 20% 15%;
+  
 }
 
 .clock-container {
   background-color: #F55C47;
   padding: 10%;
   border-radius: 50%;
+  width: 500px;
+  margin: auto;
+  
 }
 .startBtn {
     background: #9FE6A0;
@@ -206,6 +210,7 @@ transform: scale(0.98);
     cursor: pointer;
     text-align: center;
     width: 150px;
+    margin-top: 10px;
     
  }
  
@@ -225,6 +230,7 @@ transform: scale(0.98);
 .reps {
   padding-bottom: 0;
   font-size: 24px;
+ 
 }
 
 /* ----Login page ----------------------------- */
@@ -262,6 +268,7 @@ transform: scale(0.98);
     --square-size: 15px;
     --square-gap: 5px;
     --week-width: calc(var(--square-size) + var(--square-gap));
+    text-align: center;
   }
   
   .months { grid-area: months; }
@@ -274,11 +281,16 @@ transform: scale(0.98);
                          "days squares";
     grid-template-columns: auto 1fr;
     grid-gap: 10px;
+    background-color: #fff;
+    padding: 20px;
+    border: 1px #e1e4e8 solid;
+    margin: 164px 20px 20px;
   }
   
   .months {
     list-style-type: none;
     display: grid;
+    padding-left: 0px;
     grid-template-columns: calc(var(--week-width) * 4) /* Jan */
                            calc(var(--week-width) * 4) /* Feb */
                            calc(var(--week-width) * 4) /* Mar */
@@ -293,6 +305,10 @@ transform: scale(0.98);
                            calc(var(--week-width) * 5) /* Dec */;
   }
   
+  .days {
+    padding-left: 0px;
+    margin-top: -21px;
+  }
   .days,
   .squares {
     display: grid;
@@ -305,6 +321,8 @@ transform: scale(0.98);
     list-style-type: none;
     grid-auto-flow: column;
     grid-auto-columns: var(--square-size);
+    padding-left: 0px;
+    margin-top: -15px;
   }
   
   
@@ -314,18 +332,13 @@ transform: scale(0.98);
   }
 
   .graph-container {
-    background-color: #F55C47;
+    background-color: #4AA96C;
+    height: 600px;
 
   }
 
-  .inner-graph-container{
-      background-color: #fff;
-  }
-  .graph {
-    padding: 20px;
-    border: 1px #e1e4e8 solid;
-    margin: 20px;
-  }
+ 
+  
   
   .days li:nth-child(odd) {
     visibility: hidden;
@@ -360,4 +373,90 @@ footer {
   background-color: #564A4A;
   color: #fff;
   padding: 5% 0;
+}
+
+@media screen and (max-width: 1255px) {
+  :root {
+    --square-size: 10px;
+    --square-gap: 5px;
+    --week-width: calc(var(--square-size) + var(--square-gap));
+    text-align: center;
+  }
+
+}
+
+@media screen and (max-width: 940px) {
+  :root {
+    --square-size: 8px;
+    --square-gap: 2px;
+    --week-width: calc(var(--square-size) + var(--square-gap));
+    text-align: center;
+  }
+
+  .clock-container {
+    width: 400px;
+    height: 400px;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    top: 0; 
+  }
+
+  .subTitle{
+    font-size: 2.25rem;
+    top: -20px;
+  }
+
+  #timer {
+    font-size: 4rem;
+    top: -20px;
+  }
+
+}
+
+@media screen and (max-width: 665px) {
+  .clock-container {
+    width: 300px;
+    height: 300px;
+  }
+
+  .subTitle {
+    font-size: 2.25rem;
+    top: -40px;
+  }
+
+  #timer {
+    font-size: 3rem;
+    top: -60px;
+  }
+
+  .startBtn {
+    position: relative;
+    top: -40px;
+  }
+
+  .resetBtn {
+    position: relative;
+    top: -40px;
+  }
+
+  .submitBtn {
+    position: relative;
+    top: -40px;
+  }
+
+  .pauseBtn {
+    position: relative;
+    top: -40px;
+  }
+}
+
+@media screen and (max-width: 665px) {
+  .graph {
+    display: none;
+  }
+  .graph-container {
+    display: none;
+  }
 }
