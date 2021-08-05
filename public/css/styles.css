@@ -405,6 +405,25 @@ footer {
     font-size: 4rem;
     top: -20px;
   }
+
+  .form-group input {
+    height: 50px;
+    width: 300px;
+    font-size: 1rem;
+  } 
+
+  .submitBtn {
+    position: relative;
+    top: -13px;
+    width: 305px;
+}
+
+.submitBtn.loginBtn {
+  position: relative;
+  top: -13px;
+  width: 305px;
+}
+  
 }
 
 @media screen and (max-width: 665px) {
@@ -560,5 +579,6 @@ footer {
     width: 114px;
     
   }
+  
 
 }
