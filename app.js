@@ -10,6 +10,8 @@ const facbookStrategy = require("passport-facebook").Strategy;
 const googleStrategy = require("passport-google-oauth20").Strategy;
 const findOrCreate = require("mongoose-findorcreate");
 const { body, validationResult } = require('express-validator');
+const { allowedNodeEnvironmentFlags } = require("process");
+const alert = require("alert");
 
 
 const app = express();
@@ -183,10 +185,7 @@ app.get("/register", function(req, res){
 
 
 app.post("/register", function(req, res){
-    if (req.body){
-        
-        res.redirect("login")
-    }
+    
     let now = new Date()
     let level = 0
     let date = (now.getMonth() + 1) +"-" + now.getDate() + "-" + now.getFullYear()
@@ -201,6 +200,8 @@ app.post("/register", function(req, res){
     Pomodoro.register({username:req.body.username}, req.body.password, function(err, user){
         if (err) {
             console.log(err)
+            alert("This user already exist.")
+            res.redirect("register")
         }
         else {
             console.log("New user created")
@@ -229,7 +230,7 @@ app.post("/register", function(req, res){
             })
         }
     });
-   
+    
 })
 
 app.post("/", function(req, res){
@@ -381,6 +382,7 @@ app.post("/login", function(req, res){
     req.login(user, function(err){
         if (err){
             console.log(err)
+           
         }
         else {
             passport.authenticate("local")(req, res, function(){

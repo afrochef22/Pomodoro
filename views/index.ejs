@@ -83,9 +83,15 @@
             <% } %>
 
             <% for (var x = 0; x < 366; x++) { %>
-            
+              
+
+
               <% if (dayData[x] > 0) {%>  
-                <li data-toggle="tooltip" data-placement="bottom" data-animation="false" delay="0" title="<%= time[x]/60 + " hour/s\n" + date[x] %>" data-level="<%= levelData[x] %>"></li>
+                <% if (time[x]/ 60 < 1) { %> 
+                  <li data-toggle="tooltip" data-placement="bottom" data-animation="false" delay="0" title="<%= time[x] + " minutes\n" + date[x] %>" data-level="<%= levelData[x] %>"></li>
+                  <% } else { %> 
+                  <li data-toggle="tooltip" data-placement="bottom" data-animation="false" delay="0" title="<%= Math.floor(time[x]/60)+ " hour/s\n" + time[x] % 60 + " minutes\n" + date[x] %>" data-level="<%= levelData[x] %>"></li>
+                  <% } %> 
               <% } else { %>
           
             <li value="<%= i %>" data-level="0"></li>
@@ -93,6 +99,7 @@
           
             <% } %>
         </ol>
+
     </div>
   </div>
   </div>
@@ -218,7 +225,7 @@ function countDown(count){
             console.log(reps) 
             };  
         }
-    }, 1000);
+    }, 10);
 };
 
 // ---------------------------- PAUSE -----------------------------

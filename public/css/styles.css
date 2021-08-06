@@ -270,6 +270,7 @@ a.active-link {
 }
 .squares {
   grid-area: squares;
+   
 }
 
 .graph {
@@ -308,6 +309,7 @@ a.active-link {
   padding-left: 0px;
   margin-top: -21px;
 }
+
 .days,
 .squares {
   display: grid;
@@ -323,6 +325,8 @@ a.active-link {
   padding-left: 0px;
   margin-top: -15px;
 }
+
+
 
 /* Other styling */
 .day0 {
