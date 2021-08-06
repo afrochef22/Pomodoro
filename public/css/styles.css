@@ -362,6 +362,14 @@ a.active-link {
   background-color: #073d10;
 }
 
+.squares li[data-level="6"] {
+  background-color: #0d3618;
+}
+
+.squares li[data-level="7"] {
+  background-color: #333;
+}
+
 footer {
   text-align: center;
   background-color: #564a4a;

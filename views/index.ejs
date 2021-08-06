@@ -78,7 +78,7 @@
       <ol class="squares" style="padding-left: 0px;" >
         <% for (var i = 0; i < firstDay; i++) { %>
           <% if (firstDay > i) { %>
-             <li value="" data-level=""></li>
+             <li value="" data-level="" ></li>
             <% } %> 
             <% } %>
 
@@ -175,6 +175,7 @@ function countDown(count){
                 sec = "0" + sec
             };
             document.getElementById("timer").innerText = min + ":" + sec;
+            document.querySelector(".timeInput").value = min;
             if (count === 0){
                 startButton.style.display = "inline-block";
                 pauseButton.style.display = "none";
@@ -206,6 +207,7 @@ function countDown(count){
                     document.querySelector(".totalTime").innerText = "Total Time Working: " + totalTime 
                     document.querySelector(".totalMin").innerText = "Total Minutes Working: " + totalMin
                     document.querySelector(".timeInput").value = totalMin
+                    
                     
                     
                 };

@@ -277,14 +277,20 @@ app.post("/", function(req, res){
                             break;
                         case time <= 180:
                             level = 3
+                            break;
                         case time <= 240:
                             level = 4;
                             break;
                         case time <= 300:
                             level = 5;
                             break;
+                        case time <= 360:
+                            level = 6;
+                            break;
+                        case time > 360:
+                            level = 7;
+                            break;
                     }
-                    let newSession = {date: date, dayNumOfYear: day, timeTotal: time, level: level};
 
                     Pomodoro.findOneAndUpdate(
                         {_id: foundUser._id, "session._id": targetSession._id}, 
@@ -322,14 +328,20 @@ app.post("/", function(req, res){
                             break;
                         case newTime <= 180:
                             level = 3
+                            break;
                         case newTime <= 240:
                             level = 4;
                             break;
                         case newTime <= 300:
                             level = 5;
                             break;
+                        case newTime <= 360:
+                            level = 6;
+                            break;
+                        case newTime > 360:
+                            level = 7;
+                            break;
                     }
-                    let updatedSession = {date: date, dayNumOfYear: day, timeTotal: newTime, level: level}
                     
                     Pomodoro.findOneAndUpdate(
                         {_id: foundUser._id, "session._id": targetSession._id}, 
