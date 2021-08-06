@@ -81,8 +81,10 @@ app.get("/", function(req, res){
         let beginningOfYearDate = new Date(new Date().getFullYear(), 0, 1);
         let calenderDate = [beginningOfYearDate.toLocaleString().split(',')[0]];
         let fistDayOfYear = beginningOfYearDate.getDay()
-        
-        console.log()
+        let now = new Date()
+    
+        let date = (now.getMonth() + 1) +"-" + now.getDate() + "-" + now.getFullYear()
+        console.log(date)
         
         userData.forEach(function(session){
             let userLevelItem = session.level
@@ -112,6 +114,7 @@ app.get("/", function(req, res){
             firstDay: fistDayOfYear,
             date: calenderDate,
             time:userTime,
+            d: date
             
         })
     }
@@ -126,7 +129,7 @@ app.get("/", function(req, res){
             firstDay: false,
             date: "",
             time:"",
-            
+            d:""
         })
     }
     
@@ -245,7 +248,7 @@ app.post("/", function(req, res){
     var oneDay = 1000 * 60 * 60 * 24;
 
     let day = Math.floor(diff / oneDay);
-    console.log(time)
+    console.log(date)
 
   
    if (req.isAuthenticated()) {
@@ -261,7 +264,7 @@ app.post("/", function(req, res){
                 
                 let elementPosition = day - 1
                 let targetSession = foundUser.session[elementPosition]
-                 console.log(targetSession.date)
+                 console.log(targetSession)
 
                 if (targetSession.date === undefined){
                     console.log("new")
@@ -305,7 +308,9 @@ app.post("/", function(req, res){
                                 console.log(err)
                             }
                             else {
-                                
+                                console.log(targetSession)
+                                console.log(date)
+
                                 res.redirect("/")
                                 
                             };
@@ -356,7 +361,8 @@ app.post("/", function(req, res){
                                 console.log(err)
                             }
                             else {
-                                console.log("updated")
+                                console.log(targetSession)
+                                console.log(date)
                                 res.redirect("/") 
                                 
                             }
