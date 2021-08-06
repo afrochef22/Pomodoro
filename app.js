@@ -81,10 +81,7 @@ app.get("/", function(req, res){
         let beginningOfYearDate = new Date(new Date().getFullYear(), 0, 1);
         let calenderDate = [beginningOfYearDate.toLocaleString().split(',')[0]];
         let fistDayOfYear = beginningOfYearDate.getDay()
-        let now = new Date()
-    
-        let date = (now.getMonth() + 1) +"-" + now.getDate() + "-" + now.getFullYear()
-        console.log(date)
+       
         
         userData.forEach(function(session){
             let userLevelItem = session.level
@@ -114,7 +111,7 @@ app.get("/", function(req, res){
             firstDay: fistDayOfYear,
             date: calenderDate,
             time:userTime,
-            d: date
+           
             
         })
     }
@@ -129,7 +126,7 @@ app.get("/", function(req, res){
             firstDay: false,
             date: "",
             time:"",
-            d:""
+            
         })
     }
     
