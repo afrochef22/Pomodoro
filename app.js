@@ -235,8 +235,25 @@ app.post("/register", function(req, res){
 
 app.post("/", function(req, res){
    
-   let time = req.body.time
-   let now = new Date()
+    let totalTime = req.body.time
+    let currentTime = req.body.time2
+    
+    if (currentTime < 30) {
+        if (totalTime < 30 ) {
+            time = currentTime
+        }
+        else{
+        time = parseInt(totalTime) + parseInt(currentTime)
+        }
+    }
+    else {
+        time = totalTime
+    };
+    console.log(totalTime + " total time")
+    console.log(currentTime + " current time")
+    console.log(time)
+
+    let now = new Date()
     let level = 0
     let date = (now.getMonth() + 1) +"-" + now.getDate() + "-" + now.getFullYear()
     // this gets the current number of the day out of 365 days
@@ -245,7 +262,7 @@ app.post("/", function(req, res){
     var oneDay = 1000 * 60 * 60 * 24;
 
     let day = Math.floor(diff / oneDay);
-    console.log(date)
+    
 
   
    if (req.isAuthenticated()) {
@@ -261,7 +278,7 @@ app.post("/", function(req, res){
                 
                 let elementPosition = day - 1
                 let targetSession = foundUser.session[elementPosition]
-                 console.log(targetSession)
+                 
 
                 if (targetSession.date === undefined){
                     console.log("new")

@@ -27,7 +27,12 @@
           
            
            <form action="/" method="POST">
-               <input class="timeInput" type="text" name="time">
+               <input class="timeInput" type="text" name="time" placeholder="total time">
+               
+               <input class="currentCountDown" type="text" name="time3" placeholder="count down">
+               
+               <input class="currentSessionTimeInput" type="text" name="time2" placeholder="current min">
+               
                <% if (loggedIn) {%> 
                <button class="submit submitBtn" type="submit" value="send">Submit</button>
                <% } %> 
@@ -119,6 +124,7 @@ let endWork = 1;
 let totalMin = 30;
 let totalHours = 0;
 let totalHoursMin = 30;
+let count2 = 0;
 let timer = null;
 let isPaused = false;
 let totalTime = null;
@@ -126,8 +132,13 @@ let startButton = document.querySelector(".startBtn");
 let pauseButton = document.querySelector(".pauseBtn");
 let timeInput = document.querySelector(".timeInput")
 
-// timeInput.style.display = "none"
+timeInput.value = 0
+timeInput.style.display = "none"
+document.querySelector(".currentSessionTimeInput").style.display = "none"
+document.querySelector(".currentCountDown").style.display = "none"
 pauseButton.style.display = "none";
+document.querySelector(".submitBtn").style.display = "none"
+
 
 // ---------------------------- TIMER MECHANISM -------------------------------
 
@@ -136,6 +147,7 @@ function start(){
     
     startButton.style.display = "none";
     pauseButton.style.display = "inline-block";  
+    document.querySelector(".submitBtn").style.display = "none"
 
     
     if (isPaused === true){
@@ -150,15 +162,15 @@ function start(){
        
 
         if ( reps % 8 === 0){
-            countDown(longBreakSec);
+            countDown(longBreakSec, null);
             document.querySelector(".subTitle").innerText = "Long Break"
         }
         else if (reps % 2 === 0) {
-            countDown(shortBreakSec);
+            countDown(shortBreakSec, null);
             document.querySelector(".subTitle").innerText = "Short Break"
         }
         else {
-            countDown(workSec);
+            countDown(workSec, count2);
             document.querySelector(".subTitle").innerText = "Work"
             
         };
@@ -169,70 +181,78 @@ function start(){
 
 // ---------------------------- COUNTDOWN MECHANISM -----------------------------
 
-function countDown(count){
+function countDown(count, count2){
    
     
-    timer = setInterval(function(){
-       
-        if (!isPaused){
-            count -= 1;
-            let min = Math.floor(count / 60)
-            let sec = count % 60
-            if (sec < 10){
-                sec = "0" + sec
-            };
-            document.getElementById("timer").innerText = min + ":" + sec;
-            document.querySelector(".timeInput").value = min;
-            if (count === 0){
-                startButton.style.display = "inline-block";
-                pauseButton.style.display = "none";
+   timer = setInterval(function(){
+      
+       if (!isPaused){
+           count -= 1;
+           count2 += 1;
+           let min = Math.floor(count / 60)
+           let sec = count % 60
+           if (sec < 10){
+               sec = "0" + sec
+           };
+           document.getElementById("timer").innerText = min + ":" + sec;
+           document.querySelector(".currentCountDown").value =  min
+           
+           document.querySelector(".currentSessionTimeInput").value = Math.floor(count2 / 60);
 
-                if ( reps % 8 === 0){
-                    playSound('blue')
-                }
-                else if (reps % 2 === 0){
-                    playSound("green")
-                    
-                }
-                else {
-                    playSound("red")
-                    
-                    let workSession = Math.floor(endWork/2)
-                    let marks = ""
-                    
-                    for (let i = 0; i < workSession; i ++){
-                        marks += "🍅"
-                        totalMin = 30 * workSession
-                        totalHours = Math.floor(totalMin / 60)
-                        totalHoursMin = totalMin % 60
-                    }
-                    if (totalHoursMin === 0) {
-                        totalHoursMin = "00"
-                    }
-                    totalTime = totalHours + ":" + totalHoursMin
-                    document.querySelector(".reps").innerText = marks
-                    document.querySelector(".totalTime").innerText = "Total Time Working: " + totalTime 
-                    document.querySelector(".totalMin").innerText = "Total Minutes Working: " + totalMin
-                    document.querySelector(".timeInput").value = totalMin
-                    
-                    
-                    
-                };
-                
-            clearInterval(timer);
-          
+           if (count === 0){
+               startButton.style.display = "inline-block";
+               pauseButton.style.display = "none";
+               if ( reps % 8 === 0){
+                   playSound('blue')
+               }
+               else if (reps % 2 === 0){
+                   playSound("green")
+                   
+               }
+               else {
+                   playSound("red")
+                   
+                   let workSession = Math.floor(endWork/2)
+                   let marks = ""
+                   
+                   for (let i = 0; i < workSession; i ++){
+                       marks += "🍅"
+                       totalMin = 30 * workSession
+                       totalHours = Math.floor(totalMin / 60)
+                       totalHoursMin = totalMin % 60
+                   }
+                   if (totalHoursMin === 0) {
+                       totalHoursMin = "00"
+                   }
+                   totalTime = totalHours + ":" + totalHoursMin
+                   document.querySelector(".reps").innerText = marks
+                   document.querySelector(".totalTime").innerText = "Total Time Working: " + totalTime 
+                   document.querySelector(".totalMin").innerText = "Total Minutes Working: " + totalMin
+                   document.querySelector(".timeInput").value = totalMin
+                   document.querySelector(".submitBtn").style.display = "inline-block"
 
-            console.log(reps) 
-            };  
-        }
-    }, 1000);
+
+                   
+                   
+                   
+               };
+               
+           clearInterval(timer);
+         
+           console.log(reps) 
+           };  
+       }
+   }, 10);
 };
+
 
 // ---------------------------- PAUSE -----------------------------
 function pause (){
     isPaused = true
     startButton.style.display = "inline-block";
-    pauseButton.style.display = "none"; 
+    pauseButton.style.display = "none";
+    document.querySelector(".submitBtn").style.display = "inline-block"
+ 
 };
 
 // ---------------------------- RESUME -----------------------------
