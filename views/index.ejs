@@ -23,6 +23,7 @@
           <input class="currentCountDown" type="text" name="time3" placeholder="count down">
           
           <input class="currentSessionTimeInput" type="text" name="time2" placeholder="current min">
+          <p class="stuff"></p>
           
           <% if (loggedIn) {%> 
           <button class="submit submitBtn" type="submit" value="send">Submit</button>
@@ -121,7 +122,7 @@ let startButton = document.querySelector(".startBtn");
 let pauseButton = document.querySelector(".pauseBtn");
 let timeInput = document.querySelector(".timeInput")
 
-timeInput.value = 0
+// timeInput.value = 0
 timeInput.style.display = "none"
 document.querySelector(".currentSessionTimeInput").style.display = "none"
 document.querySelector(".currentCountDown").style.display = "none"
@@ -157,7 +158,7 @@ function start(){
             document.querySelector(".subTitle").innerText = "Short Break"
         }
         else {
-            countDown(workSec, count2);
+            countDown(workSec, 30);
             document.querySelector(".subTitle").innerText = "Work"
             
         };
@@ -189,6 +190,7 @@ function countDown(count, count2){
            document.querySelector(".currentSessionTimeInput").value = Math.floor(count2 / 60);
 
            if (count === 0){
+               clearInterval(timer);
                startButton.style.display = "inline-block";
                pauseButton.style.display = "none";
                if ( reps % 8 === 0){
@@ -215,24 +217,23 @@ function countDown(count, count2){
                    }
                    totalTime = totalHours + ":" + totalHoursMin
                    document.querySelector(".reps").innerText = marks
-                   document.querySelector(".totalTime").innerText = "Total Time Working: " + totalTime 
-                   document.querySelector(".totalMin").innerText = "Total Minutes Working: " + totalMin
-                   document.querySelector(".timeInput").value = totalMin
+        
+                   timeInput.value = totalMin
+                  
                    document.querySelector(".submitBtn").style.display = "inline-block"
-                   document.querySelector(".submitBtn").disabled = false;
-
+                   
+                   
+                 
 
                    
                    
                    
                };
                
-           clearInterval(timer);
-         
-           console.log(reps) 
-           };  
+           }; 
+           
        }
-   }, 1000);
+   }, 1);
 };
 
 
