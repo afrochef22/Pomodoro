@@ -220,7 +220,10 @@ function countDown(count, count2){
         
                    timeInput.value = totalMin
                   
-                   document.querySelector(".submitBtn").style.display = "inline-block"
+                   setTimeout(function(){
+                    document.querySelector(".submitBtn").click()
+                  }, 3000) 
+                   
                    
                    
                  
