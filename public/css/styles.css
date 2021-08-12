@@ -66,7 +66,7 @@ a.active-link {
 .container {
   background-color: #9fe6a0;
 
-  padding: 10% 20% 15%;
+  padding: 5% 20% 5%;
 }
 
 .clock-container {
@@ -204,7 +204,7 @@ a.active-link {
   cursor: pointer;
   text-align: center;
   width: 150px;
-  margin-top: 10px;
+  margin-top: -10px;
 }
 
 .submitBtn:hover {
@@ -225,6 +225,7 @@ a.active-link {
 .reps {
   padding-bottom: 0;
   font-size: 24px;
+  margin: 5px 0 0 0;
 }
 
 /* ----Login page ----------------------------- */
@@ -484,7 +485,7 @@ footer {
   .container {
     padding-left: 0;
     padding-right: 0;
-    height: 540px;
+    height: 578px;
   }
   
   .clock-container {
@@ -520,6 +521,11 @@ footer {
     width: 114px;
     
   }
+  .reps-cont {
+    background-color: #9fe6a0;
+  }
+
+
 
 }
 
@@ -527,13 +533,13 @@ footer {
   .container {
     padding-left: 0;
     padding-right: 0;
-    height: 540px;
+    height: 567px;
   }
   
   .clock-container {
     width: 200px;
     height: 200px;
-    margin-top: 110px;
+    
   }
 
   h1 {
@@ -572,10 +578,17 @@ footer {
 
   .submitBtn {
     position: relative;
-    
     width: 114px;
     
   }
   
+  
 
+}
+
+@media screen and (max-width: 360px) {
+  footer {
+  
+    height: 48px;
+}
 }
