@@ -25,13 +25,20 @@
           <input class="currentSessionTimeInput" type="text" name="time2" placeholder="current min">
           <p class="stuff"></p>
           
-          <% if (loggedIn) {%> 
-          <button class="submit submitBtn" type="submit" value="send">Submit</button>
-          <% } %> 
+          <% if (loggedIn === false) {%> 
+          <button style="display: none;" class="submit submitBtn" type="submit" value="send">Submit</button>
+          <% } else{%> 
+            <button  class="submit submitBtn" type="submit" value="send">Submit</button>
+            <% } %> 
          </form>
 
       <div class="reps-cont">
-        <p class="reps"></p>
+        <% let marks = [] %>
+        <% for (let i = 0; i < reps; i++) {%> 
+           <% marks.push("🍅") %> 
+           <% } %> 
+        <p class="reps"><%= marks.join("") %> </p>
+        
 
        </div>
       </div>
@@ -186,7 +193,6 @@ function countDown(count, count2){
            
            document.getElementById("timer").innerText = min + ":" + sec;
            document.querySelector(".currentCountDown").value =  min
-           document.querySelector(".submitBtn").addEventListener('submit', function(event){event.preventDefault();});
            document.querySelector(".currentSessionTimeInput").value = Math.floor(count2 / 60);
 
            if (count === 0){
@@ -204,10 +210,10 @@ function countDown(count, count2){
                    playSound("red")
                    
                    let workSession = Math.floor(endWork/2)
-                   let marks = ""
+                  
                    
                    for (let i = 0; i < workSession; i ++){
-                       marks += "🍅"
+                     
                        totalMin = 30 * workSession
                        totalHours = Math.floor(totalMin / 60)
                        totalHoursMin = totalMin % 60
@@ -216,7 +222,7 @@ function countDown(count, count2){
                        totalHoursMin = "00"
                    }
                    totalTime = totalHours + ":" + totalHoursMin
-                   document.querySelector(".reps").innerText = marks
+                 
         
                    timeInput.value = totalMin
                   

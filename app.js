@@ -98,6 +98,17 @@ app.get("/", function(req, res){
             
             
         })
+
+        let now = new Date()
+        let level = 0
+        let date = (now.getMonth() + 1) +"-" + now.getDate() + "-" + now.getFullYear()
+        // this gets the current number of the day out of 365 days
+        let start = new Date(now.getFullYear(), 0, 0);
+        let diff = now - start + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
+        var oneDay = 1000 * 60 * 60 * 24;
+
+        let day = Math.floor(diff / oneDay);
+        let reps = Math.floor((userData[day-1].timeTotal)/30)
         
 
         res.render("index", {
@@ -111,6 +122,7 @@ app.get("/", function(req, res){
             firstDay: fistDayOfYear,
             date: calenderDate,
             time:userTime,
+            reps:reps,
            
             
         })
@@ -126,6 +138,7 @@ app.get("/", function(req, res){
             firstDay: false,
             date: "",
             time:"",
+            reps:""
             
         })
     }
@@ -158,6 +171,18 @@ app.get("/break", function(req, res){
             
             
         })
+
+        let now = new Date()
+        let level = 0
+        let date = (now.getMonth() + 1) +"-" + now.getDate() + "-" + now.getFullYear()
+        // this gets the current number of the day out of 365 days
+        let start = new Date(now.getFullYear(), 0, 0);
+        let diff = now - start + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
+        var oneDay = 1000 * 60 * 60 * 24;
+
+        let day = Math.floor(diff / oneDay);
+        let reps = Math.floor((userData[day-1].timeTotal)/30)
+       
         
 
         res.render("break", {
@@ -171,6 +196,7 @@ app.get("/break", function(req, res){
             firstDay: fistDayOfYear,
             date: calenderDate,
             time:userTime,
+            reps:reps,
            
             
         })
@@ -186,6 +212,7 @@ app.get("/break", function(req, res){
             firstDay: false,
             date: "",
             time:"",
+            reps:""
             
         })
     }
@@ -295,13 +322,13 @@ app.post("/register", function(req, res){
 
 
 app.post("/break", function(req, res){
-    console.log("here")
+    
     res.redirect("/")
       
   })
 
 app.post("/", function(req, res){
-   console.log("im index")
+   
     let totalTime = req.body.time
     let currentTime = req.body.time2
     
@@ -316,9 +343,7 @@ app.post("/", function(req, res){
     else {
         time = totalTime
     };
-    console.log(totalTime + " total time")
-    console.log(currentTime + " current time")
-    console.log(time)
+    
 
     let now = new Date()
     let level = 0
@@ -442,8 +467,6 @@ app.post("/", function(req, res){
                                 console.log(err)
                             }
                             else {
-                                console.log(targetSession)
-                                console.log(date)
                                 res.redirect("break") 
                                 
                             }
@@ -454,6 +477,9 @@ app.post("/", function(req, res){
             }
         }
     })
+   }
+   else {
+       res.redirect("break")
    }
   
   
