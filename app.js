@@ -132,6 +132,66 @@ app.get("/", function(req, res){
     
 });
 
+app.get("/break", function(req, res){
+    if (req.isAuthenticated()){
+        let userLevel = [];
+        let userDay = [];
+        let userTime = []
+        let userData = req.user.session;
+        let beginningOfYearDate = new Date(new Date().getFullYear(), 0, 1);
+        let calenderDate = [beginningOfYearDate.toLocaleString().split(',')[0]];
+        let fistDayOfYear = beginningOfYearDate.getDay()
+       
+        
+        userData.forEach(function(session){
+            let userLevelItem = session.level
+            let userDayItem = session.dayNumOfYear
+            let userTimeItem = session.timeTotal
+            
+            userLevel.push(userLevelItem)
+            userDay.push(userDayItem)
+            userTime.push(userTimeItem)
+            
+            beginningOfYearDate.setDate(beginningOfYearDate.getDate()+1)
+
+            calenderDate.push(beginningOfYearDate.toLocaleString().split(',')[0]);
+            
+            
+        })
+        
+
+        res.render("break", {
+            user: req.user.username,
+            loggedIn: true, 
+            indexPage: true,
+            loginPage: false,
+            registerPage: false,
+            levelData: userLevel,
+            dayData: userDay,
+            firstDay: fistDayOfYear,
+            date: calenderDate,
+            time:userTime,
+           
+            
+        })
+    }
+    else {
+        res.render("break", {
+            loggedIn: false, 
+            indexPage: true,
+            loginPage: false,
+            registerPage: false,
+            levelData: "",
+            dayData: "",
+            firstDay: false,
+            date: "",
+            time:"",
+            
+        })
+    }
+    
+})
+
 app.get("/logout", function(req, res){
     req.logout();
     res.redirect("/")
@@ -233,8 +293,15 @@ app.post("/register", function(req, res){
     
 })
 
+
+app.post("/break", function(req, res){
+    console.log("here")
+    res.redirect("/")
+      
+  })
+
 app.post("/", function(req, res){
-   
+   console.log("im index")
     let totalTime = req.body.time
     let currentTime = req.body.time2
     
@@ -325,7 +392,7 @@ app.post("/", function(req, res){
                                 console.log(targetSession)
                                 console.log(date)
 
-                                res.redirect("/")
+                                res.redirect("break")
                                 
                             };
                         });
@@ -377,7 +444,7 @@ app.post("/", function(req, res){
                             else {
                                 console.log(targetSession)
                                 console.log(date)
-                                res.redirect("/") 
+                                res.redirect("break") 
                                 
                             }
                         })
@@ -392,6 +459,9 @@ app.post("/", function(req, res){
   
 
 });
+
+
+
 
 app.post("/login", function(req, res){
     const user = new Pomodoro({
